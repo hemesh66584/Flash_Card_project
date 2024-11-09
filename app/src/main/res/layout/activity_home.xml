@@ -3,11 +3,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RecyclerView
-        android:id="@+id/recyclerView"
+    <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/fab_add" />
+        android:layout_above="@+id/fab_add"
+        android:orientation="vertical">
+
+        <!-- You can dynamically add TextViews, Buttons, or other views here -->
+
+    </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_add"
@@ -15,6 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:layout_margin="16dp"
-        android:src="@drawable/ic_add" />
+        android:layout_margin="16dp" />
+
 </RelativeLayout>
+

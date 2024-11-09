@@ -12,7 +12,7 @@ public class FlashcardAdapter extends RecyclerView.Adapter<FlashcardAdapter.View
 
     private List<Flashcard> flashcards;
 
-    public FlashcardAdapter(List<Flashcard> flashcards) {
+    public FlashcardAdapter(List<Flashcard> flashcards, HomeActivity homeActivity) {
         this.flashcards = flashcards;
     }
 

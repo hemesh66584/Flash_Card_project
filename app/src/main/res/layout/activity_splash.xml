@@ -2,12 +2,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#90EE90"> <!-- Light green background -->
+    android:background="#A8E6CF"> <!-- Light green background -->
 
+    <!-- Amrita Logo -->
     <ImageView
-        android:id="@+id/amrita_logo"
+        android:id="@+id/logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/images__1_"
-       android:layout_centerInParent="true" />
+        android:layout_centerInParent="true"
+        android:src="@drawable/images__1_" /> <!-- Replace with your logo drawable -->
+
 </RelativeLayout>
