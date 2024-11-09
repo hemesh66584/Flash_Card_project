@@ -1,16 +1,24 @@
 package com.example.flashcardproject;
 
 public class Flashcard {
+    private String id;
     private String question;
     private String answer;
 
-    // Default constructor for Firebase or other database usage
-    public Flashcard() {
-    }
+    public Flashcard() { }
 
     public Flashcard(String question, String answer) {
         this.question = question;
         this.answer = answer;
+    }
+
+    // Getters and Setters
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getQuestion() {

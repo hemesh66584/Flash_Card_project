@@ -2,43 +2,68 @@ package com.example.flashcardproject;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.LinearLayout;
-import androidx.annotation.Nullable;
+import android.view.View;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class HomeActivity extends AppCompatActivity {
 
-    private LinearLayout linearLayout;  // LinearLayout for dynamic views
-    private FlashcardAdapter adapter;
-    private FloatingActionButton fabAdd;
-    private List<Flashcard> flashcardList;
+    private RecyclerView recyclerView;
+    private FlashcardAdapter flashcardAdapter;
+    private List<Flashcard> flashcards;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        linearLayout = findViewById(R.id.linearLayout);  // Updated to match XML ID
-        fabAdd = findViewById(R.id.fab_add);
+        recyclerView = findViewById(R.id.recyclerView);
+        flashcards = new ArrayList<>();
+        flashcardAdapter = new FlashcardAdapter(flashcards, this);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(flashcardAdapter);
 
-        // Initialize flashcard list
-        flashcardList = new ArrayList<>();
+        // Fetch flashcards from Firebase
+        fetchFlashcards();
 
-        // Setup for adapter if needed, or add views directly to linearLayout
-
-        loadFlashcards();
-
-        // Add button to create a new flashcard
-        fabAdd.setOnClickListener(view -> {
+        // Add new flashcard
+        findViewById(R.id.btnAddFlashcard).setOnClickListener(v -> {
             Intent intent = new Intent(HomeActivity.this, FlashcardCreationActivity.class);
             startActivity(intent);
         });
     }
 
-    private void loadFlashcards() {
-        // Code to load flashcards from Firebase or another source
+    // Change visibility from private to public or protected
+    public void fetchFlashcards() {
+        DatabaseReference database = FirebaseDatabase.getInstance().getReference("Flashcards");
+        database.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                flashcards.clear();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Flashcard flashcard = snapshot.getValue(Flashcard.class);
+                    flashcard.setId(snapshot.getKey());
+                    flashcards.add(flashcard);
+                }
+                flashcardAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Toast.makeText(HomeActivity.this, "Failed to load flashcards.", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }
